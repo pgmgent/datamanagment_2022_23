@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+<?php
+    $item = $_GET['item'];
+?><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,33 +12,28 @@
 
 </head>
 <body>
-    <?php
-        
-        $item = $_GET['item'];
-        ?>
+    
     <div class="drive">
-        <h1>PGMdrive / <?= $item; ?></h1>
+        <h1><a href='/'>PGMdrive</a> / <?= $item; ?></h1>
     <?php
-
-
-
-    if(file_exists('drive/' . $item)) {
-        $pathinfo = pathinfo('drive/' . $item);
+    
+    if(file_exists($item)) {
+        $pathinfo = pathinfo($item);
 
         switch($pathinfo['extension']) {
             case 'txt' :
             case 'md' :
             case 'html' :
                 //include 'drive/' . $item;
-                echo file_get_contents('drive/' . $item);
+                echo file_get_contents($item);
                 break;
             case 'jpg' :
             case 'png' :
             case 'svg' :
-                echo "<img src='/drive/$item'>";
+                echo "<img src='$item'>";
                 break;
             default :
-                echo $file;
+                echo $item;
         }
     } else {
         echo 'page 404';
