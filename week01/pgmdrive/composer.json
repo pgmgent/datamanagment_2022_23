@@ -1,0 +1,17 @@
+{
+    "name": "dietde2/pgmdrive",
+    "autoload": {
+        "psr-4": {
+            "Dietde2\\Pgmdrive\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "dieterdeweirdt",
+            "email": "dieter.deweirdt@arteveldehs.be"
+        }
+    ],
+    "require": {
+        "intervention/image": "^2.7"
+    }
+}

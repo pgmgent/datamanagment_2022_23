@@ -28,6 +28,7 @@
                 echo file_get_contents($item);
                 break;
             case 'jpg' :
+            case 'jpeg' :
             case 'png' :
             case 'svg' :
                 echo "<img src='$item'>";
