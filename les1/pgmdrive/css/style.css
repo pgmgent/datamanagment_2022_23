@@ -1,0 +1,32 @@
+
+body { 
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: 300;
+    color: #333;
+}
+
+img { max-width: 100%; height: auto;}
+
+.drive {
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+.drive .item {
+    display: flex;
+    border: solid 1px #AAA;
+    padding: 4px 8px;
+    margin-bottom: 3px;
+    border-radius: 3px;
+}
+.drive .item i {
+    width: 30px;
+}
+.drive .item .name {
+    width: 50%
+}
+.drive .item .size {
+    text-align: right;
+}
