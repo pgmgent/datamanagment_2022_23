@@ -36,8 +36,8 @@ $verbs = [
         'tu' => 'viens',
         'il' => 'vient',
         'elle' => 'vient',
-        'nous' => 'vienons',
-        'vous' => 'vienez',
+        'nous' => 'venons',
+        'vous' => 'venez',
         'ils' => 'viennent',
         'elles' => 'viennent'
     ],
@@ -56,10 +56,10 @@ $verbs = [
         'tu' => 'prends',
         'il' => 'prend',
         'elle' => 'prend',
-        'nous' => 'prendons',
-        'vous' => 'prendez',
-        'ils' => 'prendent',
-        'elles' => 'predent'
+        'nous' => 'prenons',
+        'vous' => 'prenez',
+        'ils' => 'prennent',
+        'elles' => 'prennent'
     ],
 
     'mettre' => [
