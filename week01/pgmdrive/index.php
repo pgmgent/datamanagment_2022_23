@@ -1,5 +1,10 @@
 <?php 
 
+    require __DIR__ . '/vendor/autoload.php';
+
+    // import the Intervention Image Manager Class
+    use Intervention\Image\ImageManagerStatic as Image;
+
     $search = $_GET['q'] ?? '';
 
     $folder = 'drive/';
@@ -19,6 +24,16 @@
 
         //echo "Move $tmp_name to $name";
         move_uploaded_file($tmp_name, $folder . $name);
+
+        if(mime_content_type($folder . $name) == 'image/jpeg') { 
+            $img = Image::make($folder . $name);
+            $img->resize(1000, null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+
+            $img->save($folder . $name);
+        }
+
     }
 
 ?><!DOCTYPE html>
