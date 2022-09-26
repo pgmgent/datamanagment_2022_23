@@ -1,6 +1,6 @@
 <?php 
-$personen = ['je', 'tu', 'il', 'elle', 'nous', 'vous', 'ils', 'elle'];
-$werkwoorden = [
+$persons = ['je', 'tu', 'il', 'elle', 'nous', 'vous', 'ils', 'elles'];
+$verbs = [
     'être' => [
         'je' => 'suis',
         'tu' => 'es',
