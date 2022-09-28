@@ -26,3 +26,4 @@ Homestead.json
 vendor
 composer.lock
 week01/pgmdrive/drive/*
+.DS_Store
