@@ -31,7 +31,7 @@ if(isset($_POST['config'])) {
 
 $next_verb = array_rand($verbs);
 $next_person = $persons[array_rand($persons)];
-
+$percentage = round($total_correct/$total_questions*100, 0);
 ?><!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -54,7 +54,7 @@ $next_person = $persons[array_rand($persons)];
     
     <input type="submit" value="verstuur">
 
-    <p><?= "$total_correct / $total_questions"; ?></p>
+    <p><?= "Score: $total_correct / $total_questions ($percentage%)"; ?></p>
 </form>
 </div>
 <footer>
@@ -69,5 +69,8 @@ $next_person = $persons[array_rand($persons)];
     <input type="submit" value="save" name="update_config">
     </form>
 </footer>
+<script>
+    document.getElementById('answer').focus();
+</script>
 </body>
 </html>
