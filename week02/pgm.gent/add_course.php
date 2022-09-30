@@ -2,7 +2,6 @@
 include 'libs/db.php';
 $errors = [];
 
-
 if(isset($_POST['name'])) {
 
     //csrf of Cross Site Request Forgery tegen gaan (requests vqn een ander domein blokkeren)
@@ -11,12 +10,10 @@ if(isset($_POST['name'])) {
         die();
     }
 
-
     //xss of Cross Site Scripting tegen te gaan (ervoor zorgen dat <script> </script> niet uitgevoerd kan worden)
     $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
     $name_short = filter_input(INPUT_POST, 'name_short', FILTER_SANITIZE_SPECIAL_CHARS);
     $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_SPECIAL_CHARS);
-    
 
     if ( strlen($name) > 20 ) {
         $errors[] = "Naam mag niet meer dan 20 tekens zijn.";
@@ -31,9 +28,12 @@ if(isset($_POST['name'])) {
             ':name_short' => $name_short,
             ':description' => $description
         ]); 
+
+        //Na het toevoegen redirecten naar de index
+        header('location:index.php');
+        exit;
     }
 }
-
 ?><!DOCTYPE html>
 <html lang="en">
 <head>

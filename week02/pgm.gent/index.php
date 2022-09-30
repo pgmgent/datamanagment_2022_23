@@ -1,14 +1,14 @@
 <?php
 include 'libs/db.php';
 
-$teacher = $_GET['teacher'] ?? '';
+$selected_teacher = $_GET['teacher'] ?? '';
 
 $params = [];
 $sql = 'SELECT * FROM courses';
 
-if($teacher) {
+if($selected_teacher) {
     $sql = 'SELECT * FROM courses WHERE teacher_short = :teacher';
-    $params[':teacher'] = $teacher;
+    $params[':teacher'] = $selected_teacher;
 }
 /* SQL Prepare */
 $pdostmnt = $db->prepare($sql);
