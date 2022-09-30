@@ -44,7 +44,6 @@ $teachers = $pdostmnt->fetchAll();
     <button type="submit">Filter</button>
     </form>
     
-
     <?php foreach($courses as $course) {
         include 'view/course_item.php';
     } ?>

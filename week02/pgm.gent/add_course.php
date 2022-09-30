@@ -1,15 +1,37 @@
 <?php
-
 include 'libs/db.php';
+$errors = [];
+
 
 if(isset($_POST['name'])) {
-    $sql = 'INSERT INTO courses (name, name_short, description) VALUES (:name, :name_short, :description);';
-    $pdostmnt = $db->prepare($sql);
-    $pdostmnt->execute([
-        ':name' => $_POST['name'],
-        ':name_short' => $_POST['name_short'] ?? '',
-        ':description' => $_POST['description'] ?? ''
-    ]); 
+
+    //csrf of Cross Site Request Forgery tegen gaan (requests vqn een ander domein blokkeren)
+    if($_SERVER["HTTP_REFERER"] != "http://localhost:898/add_course.php") {
+        echo 'Stop hacking';
+        die();
+    }
+
+
+    //xss of Cross Site Scripting tegen te gaan (ervoor zorgen dat <script> </script> niet uitgevoerd kan worden)
+    $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
+    $name_short = filter_input(INPUT_POST, 'name_short', FILTER_SANITIZE_SPECIAL_CHARS);
+    $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_SPECIAL_CHARS);
+    
+
+    if ( strlen($name) > 20 ) {
+        $errors[] = "Naam mag niet meer dan 20 tekens zijn.";
+    }
+
+    if ( count($errors) == 0 ) {
+        $sql = 'INSERT INTO courses (name, name_short, description) VALUES (:name, :name_short, :description);';
+        $pdostmnt = $db->prepare($sql);
+        //bind parameters om sqlinjection tegen te gaan
+        $pdostmnt->execute([
+            ':name' => $name,
+            ':name_short' => $name_short,
+            ':description' => $description
+        ]); 
+    }
 }
 
 ?><!DOCTYPE html>
@@ -25,17 +47,22 @@ if(isset($_POST['name'])) {
 <div class="container">
     <h1>Add course</h1>
     <form method="POST">
+
+        <?php foreach($errors as $error) {
+            echo "<div class=\"alert alert-warning\">$error</div>";
+        } ?>
+
         <div class="mb-2">
             <label for="name" class="form-label">Naam</label>
-            <input class="form-control" type="text" name="name" id="name" required>
+            <input class="form-control" type="text" name="name" id="name" value="<?= $name ?? ''; ?>" required>
         </div>
         <div class="mb-2">
             <label for="name_short" class="form-label">Korte benaming</label>
-            <input class="form-control" type="text" name="name_short" id="name_short">
+            <input class="form-control" type="text" name="name_short" value="<?= $name_short ?? ''; ?>" id="name_short">
         </div>
         <div class="mb-2">
             <label for="description" class="form-label">Description</label>
-            <textarea class="form-control" name="description" id="description"></textarea>
+            <textarea class="form-control" name="description" id="description"><?= $description ?? ''; ?></textarea>
         </div>
         <button class="btn btn-primary" type="submit">Verstuur</button>
     </form>
