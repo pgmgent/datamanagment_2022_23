@@ -2,11 +2,11 @@
 
 ## PHP Frameworks 
 
-Development in 'plain' PHP gebeurd niet veel meer. Vooral omdat er vaak veel repetitief werk is en hierbij steeds met alle security regels moet rekening houden. Om het werk van developers eenvoudiger te maken zijn er ook bij PHP verschillende frameworks en CMSen.
+Development in 'plain' PHP gebeurt niet veel meer. Vooral omdat er vaak veel repetitief werk is en hierbij steeds met alle security regels moet rekening houden. Om het werk van developers eenvoudiger te maken zijn er ook bij PHP verschillende frameworks en CMSen.
 
 Momenteel zijn er 3 grote spelers binnen de frameworks: Laravel, Symfony en CodeIgniter. Volgens Google Trends is in [Vlaanderen](https://trends.google.nl/trends/explore?geo=BE&q=%2Fm%2F0jwy148,%2Fm%2F09cjcl,%2Fm%2F02qgdkj) Laravel de koploper met 75%. [Wereldwijd](https://trends.google.nl/trends/explore?q=%2Fm%2F0jwy148,%2Fm%2F09cjcl,%2Fm%2F02qgdkj) is het verschil zelfs nog groter. 
 
-Via JobAt kon ik, op datum van 1 oktober 2022, 26 jobs voor PHP Developers terugvinden,  9 daarvan voor Laravel en 8 voor Symfony. Daar is het verschil dus minder groot. Bij ICTjobs.be is er 1 vacature meer voor Symfony Voor CodeIgniter is er momenteel maar 1 vacature.
+Via JobAt kon ik, op datum van 1 oktober 2022, 26 jobs voor PHP Developers terugvinden,  9 daarvan voor Laravel en 8 voor Symfony. Daar is het verschil dus minder groot. Bij ICTjobs.be is er 1 vacature meer voor Symfony, voor CodeIgniter is er momenteel zelfs maar 1 vacature.
 
 De keuze binnen de opleiding is gevallen voor Laravel. Maar de concepten van MVC zijn bij ieder platform gelijkaardig. Daarom moet een switch naar een ander framework in jullie verder loopbaan geen probleem mogen vormen. 
 
@@ -48,9 +48,7 @@ Route::get('/hello/{name}', function ($name) {
 });
 ```
 
-Deze url is nu dynamisch en je kan dus ook andere waardes meegeven in je url.
-
-Je kan ook een redirect doen van de ene URL naar een andere URL.
+Je kan ook een redirect doen van de ene naar een andere URL.
 
 ```
 Route::redirect('/hello/world', '/hello', 301);
@@ -62,9 +60,9 @@ Zoals je kon zien stond er in het project reeds een route op de '/' van je websi
 
 ## Views
 
-Deze view kan je terugvinden onder `/resources/views` de als je dus `view('welcome')` aanroept zal de `welcome.blade.php` uitgevoerd worden.
+Deze view kan je terugvinden onder `/resources/views`, als je dus `view('welcome')` aanroept zal de `welcome.blade.php` uitgevoerd worden.
 
-Hierbij zie je dus ook al dat Laravel standaard gebruikt maakt van de Blade template engine. Maar kan je ook verder PHP gebruiken want het is en blijft een PHP-pagina.
+Hierbij zie je dat Laravel standaard gebruikt maakt van de Blade template engine. Maar kan je ook verder PHP gebruiken want het is en blijft een PHP-pagina.
 
 Maak een view aan voor de route hello en koppel beide reeds aangemaakte routes aan deze view.
 
@@ -75,7 +73,7 @@ Route::get('/hello/{name}', function ($name) {
     return view('hello', ['name' => $name]);
 });
 ```
-In de template kan je dan de naam printen via php of nog eenvoudiger, via blade
+In de template kan je dan de naam printen via php of nog eenvoudiger, via blade.
 
 ```
 <h1>Hello via php: <?= $name; ?></h1>
@@ -86,7 +84,7 @@ In de template kan je dan de naam printen via php of nog eenvoudiger, via blade
 
 Je zou, in theorie, alle functionaliteit kunnen schrijven in de Routing config maar dat is niet de bedoeling. Dat is het werk van een Controller binnen een MVC framework.
 
-Maak een nieuwe controller aan `CourseController.php` in de folder `/app/Http/Controllers`. Hierin hebben we ook methods nodig die aangeroepen kunnen worden vanuit de Routing. Plaats onderstaande code in de CourseController.
+Maak een nieuwe controller aan `CourseController.php` in de folder `/app/Http/Controllers`. Hierin hebben we ook methods nodig die aangeroepen kunnen worden vanuit de Routing. Plaats onderstaande code in de `CourseController.php`.
 
 ```
 <?php
@@ -115,13 +113,13 @@ Route::get('/courses', [CourseController::class, 'index']);
 Route::get('/course/{id}', [CourseController::class, 'detail']); 
 ```
 
-Let wel op dat je ook de namespace gaat toevoegen bovenaan de routing config.
+**Let wel op dat je ook de namespace gaat toevoegen bovenaan de routing config.**
 
 ```
 use App\Http\Controllers\CourseController;
 ```
 
-Als laatste moeten we nog de 2 views aanmaken. Zoals je kan zien roepen we deze via de CourseController op via `view('course.list')`. We moeten dus een nieuwe volder `course` aanmaken in de views folder met daarin 2 views: `list.blade.php` en `detail.blade.php`. Op die manier kunnen we onze views mooi structureren.
+Als laatste moeten we nog de 2 views aanmaken. Zoals je kan zien roepen we deze via de CourseController op via `view('course.list')`. We moeten dus een nieuwe folder `course` aanmaken in de views folder met daarin 2 views: `list.blade.php` en `detail.blade.php`. Op die manier kunnen we onze views mooi structureren.
 
 ## Blade layouts
 
