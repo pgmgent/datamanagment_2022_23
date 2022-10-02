@@ -183,15 +183,15 @@ DB_PASSWORD=secret123
 
 Daarna moeten we de migration scripts runnen van Laravel. Bekijk alvast eens de bestaande migrations `database/migrations/`.
 
-Voor daarna volgend commando uit in je CLI.
+Voor daarna onderdtaande commando uit in je CLI.
 
 ```
 php artisan migrate
 ```
 
-Indien de database die je hebt gedefineerd in je `.env` nog niet bestaand kan zal je de vraag krijgen om deze aan te maken.
+Indien de database die je hebt gedefineerd in je `.env` nog niet bestaat, zal je de vraag krijgen om deze aan te maken.
 
-We kunnen nu ofwel zelf migrations schrijven ofwel bestaande tabellen importeren of aanmaken rechstreeks in de database of via een DBMS.
+We kunnen nu zelf migrations schrijven ofwel bestaande tabellen importeren of aanmaken rechstreeks in de database of via een DBMS.
 
 Voor de eerste oefening imporeren we de pgm courses sql van vorige les.
 
@@ -214,7 +214,7 @@ class Course extends Model
 
 Het basis model gaat uit van de tabel `courses` (Class name in onderkast + 's') en de primary key `id`.
 
-> Indien je dit anders wenst dan moet je dit defineren aan het begin van je model.
+> Indien je dit anders wenst dan moet je dit definiëren aan het begin van je model.
 > ```
 >    protected $table = 'my_courses';
 >    protected $primaryKey = 'course_id';
