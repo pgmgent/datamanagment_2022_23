@@ -164,7 +164,7 @@ In je view defineer je welke layout je wenst te gebruiken en vul je de inhoud in
 @section('title', 'Course Detail')
  
 @section('content')
-    <h1>Detailpagina van het vak met id: {{ course_id }}</h1>
+    <h1>Detailpagina van het vak met id: {{ $course_id }}</h1>
     <p>Hier zal de inhoud komen</p>
 @endsection
 ```
