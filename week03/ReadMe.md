@@ -199,6 +199,8 @@ Voor de eerste oefening imporeren we de pgm courses sql van vorige les.
 
 Daarna kunnen we ons eerste model aanmaken en afleiden van een basis Model. Hierdoor erven we meteen alle methods over van dit basis Model.
 
+Maak de model `Course.php` aan in de folder `/app/Models/` met onderstaande code.
+
 ```
 <?php
  
