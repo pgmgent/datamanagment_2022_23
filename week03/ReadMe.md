@@ -240,3 +240,7 @@ var_dump($courses);
 ```
 
 Pas nu de Controller aan zodat je de inhoud kan doorgeven aan de View. In de view moet je de inhoud ook ophalen.
+
+## Meer info
+
+(Blade templates)[https://laravel.com/docs/9.x/blade]
