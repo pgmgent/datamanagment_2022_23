@@ -223,7 +223,7 @@ Het basis model gaat uit van de tabel `courses` (Class name in onderkast + 's') 
 >```
 
 
-Via de Eloquent ORM kan je nu data ophalen via static functies van je model. (Meer info over de mogelijkheden)[https://laravel.com/docs/4.2/eloquent] of hieronder enkele die je kan testen binnen de courses tabel en Course model.
+Via de Eloquent ORM kan je nu data ophalen via static functies van je model. (Meer info over de mogelijkheden)[https://laravel.com/docs/9.x/eloquent] of hieronder enkele die je kan testen binnen de courses tabel en Course model.
 
 ```
 //Alle records ophalen
@@ -241,11 +241,6 @@ var_dump($courses);
 
 Pas nu de Controller aan zodat je de inhoud kan doorgeven aan de View. In de view moet je de inhoud ook ophalen.
 
-## Meer info
-
-(Blade templates)[https://laravel.com/docs/9.x/blade]
-
-
 ## Round-up
 
 | Functionaliteit | Omschrijving | Locatie |
@@ -255,3 +250,9 @@ Pas nu de Controller aan zodat je de inhoud kan doorgeven aan de View. In de vie
 | Models | Staat in contact met de database, voert sql opdrachten uit en stuurt resultaat terug | /app/Models |
 | Views | Bevat de inhoud of een deel van de inhoud van een pagina | /resources/views/... |
 | Layout | Bevat de volledige layout van de pagina | /resources/views/... |
+
+## Meer info
+
+- [Routing](https://laravel.com/docs/9.x/routing)
+- [Eloquent ORM](https://laravel.com/docs/9.x/eloquent)
+- [Blade templates](https://laravel.com/docs/9.x/blade)
