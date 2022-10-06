@@ -26,9 +26,25 @@ npm run build
 Je zal zien dat vite ook een versienummer geeft aan de css. Om te linken vanuit je html moet je onderstaande code gebruiken.
 ```
 <head>
-...
-@vite(['resources/css/app.css'])
+    ...
+    @vite(['resources/css/app.css'])
 </head>
+```
+
+Het is natuurlijk wel vervelend om, na ieder aanpassing in CSS of JavaScript, dit commando te moeten uitvoeren. Vandaar dat je ook een watch kan starten. Voeg hiervoor een watch script toe aan `package.json`
+
+```
+"scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "watch": "vite build --watch"
+},
+```
+
+Nadien kan je de watch starten.
+
+```
+npm run watch
 ```
 
 ## Webpack gebruiken
@@ -68,7 +84,7 @@ Het is natuurlijk wel vervelend om, na ieder aanpassing in CSS of JavaScript, di
 npx mix watch
 ```
 
-## Sass / Scss
+### Sass / Scss en mix
 
 Wens je gebruik te maken van Sass of Scss dan zal mix ook deze bestanden compileren naar een css bestand.
 
