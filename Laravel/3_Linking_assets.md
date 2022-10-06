@@ -9,6 +9,28 @@ Hoe dan ook moet je vanuit je templates of layout linken naar je css op ondersta
 <link rel="stylesheet" href="{{ asset('css/style.css'); }} ">
 ```
 
+## Vite gebruiken
+
+Standaard gebruikt Laravel Vite voor asset bundeling en compiling. Installeer eerst de node packages.
+
+```
+npm install
+```
+
+Pas nadien de `vite.config.js` aan in de root van je project. Om nadien de build uit te voeren.
+
+```
+npm run build
+```
+
+Je zal zien dat vite ook een versienummer geeft aan de css. Om te linken vanuit je html moet je onderstaande code gebruiken.
+```
+<head>
+...
+@vite(['resources/css/app.css'])
+</head>
+```
+
 ## Webpack gebruiken
 
 Installeer de package `laravel-mix` via `npm`. Indien er nog geen npm aanwezig is in het project moet je eerst `npm init` doen.
