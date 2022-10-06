@@ -41,7 +41,7 @@ Je kan nu meerdere migrations aanmaken per tabel. Maar je kan uiteraard ook aanp
 
 ```
 Schema::table('projects', function (Blueprint $table) {
-    $table->int('year');
+    $table->integer('year');
 });
 ```
 
