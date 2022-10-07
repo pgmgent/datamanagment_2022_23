@@ -23,6 +23,25 @@ Maak ondertussen ook een model voor customers aan (zie Introductie.md)
 Dan kunnen we de relatie leggen tussen beide models op onderstaande manier.
 
 ```
+class Project extends Model
+{
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
+}
+```
+
+Deze method kan je dan in je controller of views aanroepen als property.
+
+```
+    $project = Project::find($id);
+    echo $project->customer->name;
+```
+
+Bij customers kunnen we dan de relatie leggen met projects. Dit gebeurt aan de hand van de method `hasMany`. Want een klant kan meerdere projecten hebben.
+
+```
 <?php
 
 namespace App\Models;
@@ -39,16 +58,13 @@ class Customer extends Model
         return $this->hasMany(Project::class);
     }
 }
-```
+``` 
 
 ```
-class Project extends Model
-{
-    public function customer()
-    {
-        return $this->belongsTo(Customer::class);
+    $customer = Customer::find($id);
+    foreach($customer->projects as $project) {
+        echo $project->name . ', ';
     }
-}
 ```
 
 ## Many-to-many
@@ -95,6 +111,46 @@ class Projects extends Model
     public function users()
     {
         return $this->belongsToMany(User::class);
+    }
+}
+```
+
+## Relatie doorheen een andere tabel
+
+Indien je 3 bestaande tabellen met bijhorende models hebt. Waartussen telkens een een-op-veel relatie ligt. Bijvoorbeeld: Motorcycles -> Types -> Brands.
+
+Waarbij 1 brand meerdere types heeft en 1 type meerdere motorcycles bevat. Dan kan je een relatie leggen van Motorcycle naar Brand, doorheen de Types tabel.
+
+```
+<?php
+ 
+namespace App\Models;
+ 
+use Illuminate\Database\Eloquent\Model;
+ 
+class Motorcycle extends Model
+{
+    public function brand()
+    {
+        return $this->hasOneThrough(Brand::class, Type::class);
+    }
+}
+```
+
+Het omgekeerde kan je ook doen met `hasManyThrough`. Dus bijvoorbeeld van Brand naar Motorcycles.
+
+```
+<?php
+ 
+namespace App\Models;
+ 
+use Illuminate\Database\Eloquent\Model;
+ 
+class Brand extends Model
+{
+    public function motorcycles()
+    {
+        return $this->hasManyThrough(Motorcycle::class, Type::class);
     }
 }
 ```
