@@ -1,12 +1,12 @@
-# Forms and Security
+# Editeer formulieren en beveiliging
 
-We kunnen nu ook templates maken waarin formulier voorkomen. We gaan ervanuit gaan dat de indien we gegevens willen ophalen we de GET methode gebruiken. Als we gegevens naar de database willen sturen de POST gebruiken. Uiteraard zijn er steeds uitzonderingen op deze regel.
+We kunnen nu ook templates maken waarin formulier voorkomen. We gaan ervanuit gaan dat, indien we gegevens willen ophalen, we best de GET methode gebruiken. En als we gegevens naar de database willen sturen de POST van toepassing is. Uiteraard zijn er steeds uitzonderingen op deze regel. Hieronder gaan we verder in op het versturen van gegevens die in de database zullen worden opgeslagen en dus de POST methode zal gebruikt worden.
 
 ## CSRF: Cross Site Request Forgery
 
-Om je te wapenen tegen CSRF heeft Laravel een middleware voorzien om de request te controleren hierop.
+Om je te wapenen tegen CSRF heeft Laravel een middleware voorzien om de request te controleren op de oorsprong van de request.
 
-Bij het aanmaken van een formulier moet je dan wel een include doen via `@csrf`. Dit zal een soort sessie ID meegeven als hidden field in je formulier. Hierop zal Laravel dan controleren of de request weldegelijk van je eigen website komt en niet van een externe fishing website.
+Bij het aanmaken van een formulier moet je dan wel een include doen via `@csrf`. Dit zal een soort sessie ID meegeven als hidden input in je formulier. Hierop zal Laravel dan controleren of de request weldegelijk van je eigen website komt en niet van een externe (fishing) website.
 
 ```
 <form method="POST">
@@ -40,14 +40,18 @@ Deze template voorzie je van een formulier om de content aan te passen. **(Verge
 @endsection
 ```
 
-Stap 2: Routes aanmaken. Zoals je hieronder kan zien maak ik zowel een `get` als `post` route aan. Elk verwijzen ze naar een andere method binnen de ProjectConroller.
+### Stap 2: Routes aanmaken. 
+
+Zoals je hieronder kan zien maak ik zowel een `get` als `post` route aan. Elk verwijzen ze naar een andere method binnen de ProjectConroller.
 
 ```
 Route::get('/project/{id}/edit', [ProjectController::class, 'edit']);
 Route::post('/project/{id}/edit', [ProjectController::class, 'save']);
 ```
 
-Stap 3: De methods aanmaken in de `ProjectController` class.
+### Stap 3: De methods aanmaken 
+
+Maak onderstaande methods aan in de `ProjectController` class. Pas de waardes aan van je object en gebruik de `save()` method, van ons ORM, om de aanpassingen op te slaan in de database.
 
 ```
 public function edit($id) {
@@ -72,11 +76,11 @@ public function save(Request $request, $id) {
 }
 ```
 
-## Aanmaken
+## Aanmaken 
 
-We zouden nu zowel de template als de methods kunnen dupliceren voor het aanmaken van een nieuw record. Maar zoals het een goede programmeur betaamt, zijn we wat 'lui', en willen we zoveel mogelijk hergebruiken. Het grootste verschil tussen aanpassen en editeren is dat we bij het aanpassen een project ophalen uit de database en bij het aanmaken een nieuwe leeg object gebruiken.
+We zouden nu zowel de template als de methods kunnen dupliceren voor het aanmaken van een nieuw record. Maar zoals het een goede programmeur betaamt, zijn we wat 'lui', en willen we zoveel mogelijk code hergebruiken. Het grootste verschil tussen aanpassen en editeren is dat we bij het aanpassen, eerst een project ophalen uit de database en bij het aanmaken, een nieuw leeg object initialiseren.
 
-Eerst en vooral moeten we ervoor zorgen dat we nieuwe routes aanmaken `/project/create`. En dat we deze ook doorverwijzen naar de edit en save method.
+Eerst en vooral moeten we ervoor zorgen dat we nieuwe routes aanmaken `/project/create`. En dat we deze ook doorverwijzen naar de edit en save methods van de controller.
 
 >**Let hierbij op dat deze boven de routes staan van `/project/{id}` anders zal hij 'create' aanzien als een id dat doorgegeven moet worden naar de detail controller.**
 
@@ -85,7 +89,7 @@ Route::get('/project/create', [ProjectController::class, 'edit']);
 Route::post('/project/create', [ProjectController::class, 'save']);
 ```
 
-Als je dit gaat testen zal je zien dat dit de foutmelding `Too few arguments to function` zal genereren. Dit kunnen we oplossen door een standaard waarde te geven aan de `$id` bij de method edit. Daarbij moeten we dan ook controleren op deze `$id`. Indien deze niet is meegegeven dient er een nieuw object te worden aangemaakt van die class.
+Als je dit gaat testen zal je zien dat dit de foutmelding `Too few arguments to function` zal genereren. Dit kunnen we oplossen door een standaard waarde te geven aan de `$id` parameter bij de edit method. Daarna moeten we dan ook controleren op deze `$id`. Indien deze niet is meegegeven dient er een nieuw object te worden aangemaakt van die class.
 
 ```
 public function edit($id = null) {
@@ -103,13 +107,13 @@ public function save(Request $request, $id = null) {
 
 Je kan er nu ook voor zorgen dat er, bij de creatie van een project, een duidelijkere tekst staat bij de titel (*'Create project'*) en submit knop (*'Add project'*). 
 
-Gebruik hiervoor dezelfde verkorte schrijfwijze voor een if/else statement.
+Gebruik hiervoor dezelfde verkorte schrijfwijze voor een if-then-else statement.
 
 ```
 <h1>{{ ($project->id) ? 'Edit project' : 'Create project' }}</h1>
 ```
 
-Deze labels staan nu standaard steeds in het Engels, je kan ervoor zorgen dat deze labels afhankelijk bv van de voorkeuren van de bezoeker aangepast worden. Dit gebeurd adhv localisatie. (Zie 9_Localisation.md)
+Deze labels staan nu steeds in het Engels, je kan er voor zorgen dat deze labels afhankelijk van de taalvoorkeur van de bezoeker aangepast worden. Dit gebeurt adhv lokalisatie. (Zie 9_Localisation.md)
 
 ## Form validatie
 
@@ -117,11 +121,11 @@ Naast het beveiligen tegen hacking moeten we er ook steeds voor zorgen dat onze 
 
 Dit moet zowel client- als serverside gevalideerd worden om de gebruiksvriedelijkheid (UX) van onze applicatie te optimaliseren.
 
-Clientside zal dit gebeuren door enerzijds de juiste input-types. Bijvoorbeeld `<input type="email">` voor een e-mail adres. of dat er een `required` attribuut wordt meegegeven. Of het aantal karaketers beperken via het `maxlength` attribuut. Daarenboven kan je ook validatie doen via JavaScript voordat deze doorgestuurd wordt naar de server. 
+Clientside zal dit gebeuren door enerzijds de juiste input-types. Bijvoorbeeld `<input type="email">` voor een e-mail adres. En dat er een `required` attribuut wordt meegegeven indien de gebruiker verplicht het veld moet invullen. Of het aantal karaketers beperken via het `maxlength` attribuut. Daarenboven kan je ook validatie doen via JavaScript vooraleer deze doorgestuurd wordt naar de server. 
 
-Daarnaast is er niets zo vervelend als een database met bijvoorbeeld telefoonnummers waarbij 10 verschillende notaties worden aangenomen. (Met of zonder landcode, geschreven als +32 of 0032, de ene met spaties de andere met dots en nog andere met een slash tussen.) Meestal kies je voor een bepaalde notatie en wil je dat dit consistent is. Echter zal de gebruiker dat niet standaard doen
+Daarnaast is er niets zo vervelend als een database met bijvoorbeeld telefoonnummers waarbij 10 verschillende notaties worden aangenomen door gebruikers. (Met of zonder landcode, geschreven als +32 of 0032, de ene met spaties de andere met dots en nog andere met een slash tussenin.) Meestal kies je voor een bepaalde notatie en wil je dat dit consistent is voor alle records. Echter zal de gebruiker dat niet standaard doen.
 
-Of kan je een input mask te plaatsen op een invulveld, om de gebruiker te begeleiden in het invullen van een formulier. Bv bij rijksregister nummer `data-mask="99.99.99-999.99"`. Dit zorgt er voor dat alle gebruiker steeds in dezelfde vorm het rijksregister nummer zullen ingeven. Dit kan echter nog niet via standaar HTML en moet je dus een JavaScript library toevoegen.
+Een oplossing hiervoor is het gebruik van een mask, om de gebruiker te begeleiden in het invullen van een formulier. Bv bij rijksregister nummer `data-mask="99.99.99-999.99"`. Dit zorgt er voor dat alle gebruiker steeds in dezelfde vorm het rijksregister nummer zullen ingeven. Dit kan echter nog niet via standaard HTML en moet je een JavaScript library toevoegen.
 
 Eens alles door de front-end op een correcte manier werd gevalideerd zal het formulier (via de POST) doorgestuurd worden naar de server. Nu is het aan onze controller om de data te valideren.
 
@@ -161,9 +165,9 @@ class ProjectController extends Controller
 
 ## Een-op-veel relatie
 
-Indien er een een-op-veel relatie ligt tussen verschillende tabellen. Is het niet zo moeilijk om deze relatie tot stand te brengen in de database. We moeten enkel de PK van de andere tabel opslaan als FK in de huidige tabel.
+Indien er een een-op-veel relatie ligt tussen verschillende tabellen. Is het niet zo moeilijk om deze relatie tot stand te brengen in de database. We moeten enkel de primary key (PK) van de andere tabel opslaan als foreign key (FK) in de huidige tabel.
 
-Meestal zal je hiervoor gebruik maken in je formulier an een `<select>` input.
+Meestal zal je hiervoor gebruik maken in je formulier van een `<select>` input.
 
 ```
 <label>    
