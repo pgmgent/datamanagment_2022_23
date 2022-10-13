@@ -15,12 +15,12 @@ Zo hebben we reeds de methods `all()` en `find()` gezien bij de introductie:
 
 ```
 //Alle records ophalen
-$courses = Course::all();
-var_dump($courses);
+$projects = Project::all();
+var_dump($projects);
 
 //Het vak ophalen met primary key 1
-$course = Course::find(1);
-var_dump($course);
+$project = Project::find(1);
+var_dump($project);
 ```
 
 Uiteraard zullen applicaties gebruik maken van meer uitdagende SQL queries om data op te halen.
@@ -30,18 +30,18 @@ Uiteraard zullen applicaties gebruik maken van meer uitdagende SQL queries om da
 Een query opbouwen kan je vergelijken met het schrijven van een sql query. Het grootste verschil is vooral dat de volgorde bij SQL altijd gerespecteerd moet worden. Maar bij het opbouwen via de Eloquent ORM is dat niet meer van belang. Hoewel het me logisch en leesbaar lijkt om dit nog steeds te behouden.
 
 ```
-SELECT * FROM flights 
-WHERE active = 1 AND from = 'BRU'
-ORDER BY departure_date DESC
+SELECT * FROM projects 
+WHERE publish = 1 AND company_id = 4
+ORDER BY name ASC
 LIMIT 20
 ```
 
-Als we bovenstaande SQL statement in Laravel willen opbouwen via een Model `Flight` dan zal dit als volgt gebeuren.
+Als we bovenstaande SQL statement in Laravel willen opbouwen via een Model `Project` dan zal dit als volgt gebeuren.
 
 ```
-$flights = Flight::where('active', 1)
-            ->where('from', 'BRU')
-            ->orderBy('departure_date', 'DESC')
+$projects = Project::where('publish', 1)
+            ->where('company_id', 4)
+            ->orderBy('name', 'DESC')
             ->limit(20)
             ->get();
 ```
@@ -49,10 +49,10 @@ $flights = Flight::where('active', 1)
 Indien je queries moet uitvoeren dat ruimer zijn dan 1 model of indien er geen model is kan je ook de `DB` Model gebruiken hiervoor
 
 ```
-$flights = DB::table('flights')
-                ->where('active', 1)
-                ->where('from', 'BRU')
-                ->orderBy('departure_date', 'DESC')
+$projects = DB::table('projects')
+                ->where('publish', 1)
+                ->where('company_id', 4)
+                ->orderBy('name', 'DESC')
                 ->limit(20)
                 ->get();
 ```
@@ -64,12 +64,12 @@ $flights = DB::table('flights')
 Via de models kan je ook eenvoudig een nieuw record aanmaken in de database.
 
 ```
-$flight = new Flight();
-$flight->name = 'Tuifly to Barcelona';
-$flight->from = 'BRU';
-$flight->to = 'BCN';
-$flight->departure_date = '2022-12-01 14:35:00';
-$flight->save();
+$project = new Project();
+$project->name = 'My new project';
+$project->description = 'Full description of the project...';
+$project->publish = 1;
+$project->customer_id = 4;
+$project->save();
 ```
 
 ## Record aanpassen
@@ -77,9 +77,9 @@ $flight->save();
 Hetzelfde kunnen we doen voor het aanpassen van een record.
 
 ```
-$flight = Flight::find(123);
-$flight->departure_date = '2022-12-01 16:05:00';
-$flight->save();
+$project = Project::find(123);
+$project->customer_id = 2;
+$project->save();
 ```
 
 ## Verwijderen
@@ -87,18 +87,18 @@ $flight->save();
 Het verwijderen van 1 record komt overeen met het wijzigen, maar uiteraard met gebruik van de delete method.
 
 ```
-$flight = Flight::find(123);
-$flight->delete();
+$project = Project::find(123);
+$project->delete();
 
 // Of korter geschreven
-Flight::find(123)->delete();
+Project::find(123)->delete();
 ```
 
 Je kan ook meerdere records dat voldoen aan een zoekopdracht in 1 actie verwijderen.
 
 ```
-//Alle vluchten naar Barcelona uit de database verwijderen
-Flight::where('to', 'BCN')->delete();
+//Alle projecten van klant met id 4 uit de database verwijderen
+Project::where('customer_id', 4)->delete();
 ```
 
 **Let op!** Bij het verwijderen van records zijn die ook meteen verdwenen. Een soort prullenmand bestaat niet echt binnen MySQL.
@@ -119,7 +119,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
  
-class Flight extends Model
+class Project extends Model
 {
     use SoftDeletes;
 }
@@ -128,13 +128,8 @@ class Flight extends Model
 Uiteraard moet ook eerst de `deleted_at` kolom aangemaakt worden. Dit kan via een migration.
 
 ```
-Schema::create('flights', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('from');
-            $table->string('to');
-            $table->date('departure_date');
-            $table->softDeletes();
-            $table->timestamps();
-        });
+Schema::table('projects', function (Blueprint $table) {
+    $table->softDeletes();
+});
 ```
+

@@ -22,17 +22,17 @@ Deze template voorzie je van een formulier om de content aan te passen. **(Verge
 
 ```
 @section('content')
-<h1>Edit Course</h1>
+<h1>Edit Project</h1>
 <form method="POST">
     @csrf
     <label>    
         Name:
-        <input type="text" name="name" value="{{ $course->name }}">
+        <input type="text" name="name" value="{{ $project->name }}">
     </label>
 
     <label>    
         Description:
-        <textarea name="description">{!! $course->description !!}</textarea>
+        <textarea name="description">{!! $project->description !!}</textarea>
     </label>
 
     <button type="submit">Aanpassen</button>
@@ -40,73 +40,73 @@ Deze template voorzie je van een formulier om de content aan te passen. **(Verge
 @endsection
 ```
 
-Stap 2: Routes aanmaken. Zoals je hieronder kan zien maak ik zowel een `get` als `post` route aan. Elk verwijzen ze naar een andere method binnen de CourseConroller.
+Stap 2: Routes aanmaken. Zoals je hieronder kan zien maak ik zowel een `get` als `post` route aan. Elk verwijzen ze naar een andere method binnen de ProjectConroller.
 
 ```
-Route::get('/course/{id}/edit', [CourseController::class, 'edit']);
-Route::post('/course/{id}/edit', [CourseController::class, 'save']);
+Route::get('/project/{id}/edit', [ProjectController::class, 'edit']);
+Route::post('/project/{id}/edit', [ProjectController::class, 'save']);
 ```
 
-Stap 3: De methods aanmaken in de `CourseController` class.
+Stap 3: De methods aanmaken in de `ProjectController` class.
 
 ```
 public function edit($id) {
-    $course = Course::findOrFail($id);
+    $project = Project::findOrFail($id);
 
-    return view('course.edit', [
-        'course' => $course
+    return view('project.edit', [
+        'project' => $project
     ]);
 }
 
 public function save(Request $request, $id) {
-    $course = Course::findOrFail($id);
+    $project = Project::findOrFail($id);
 
     //Eventueel extra server side validatie toevoegen
-    $course->name = $request->input('name');
-    $course->description = $request->input('description');
-    $success = $course->save();
+    $project->name = $request->input('name');
+    $project->description = $request->input('description');
+    $success = $project->save();
 
     if($success) {    
-        return redirect('/course/' . $course->id);   
+        return redirect('/project/' . $project->id);   
     }
 }
 ```
 
 ## Aanmaken
 
-We zouden nu zowel de template als de methods kunnen dupliceren voor het aanmaken van een nieuw record. Maar zoals het een goede programmeur betaamt, zijn we wat 'lui', en willen we zoveel mogelijk hergebruiken. Het grootste verschil tussen aanpassen en editeren is dat we bij het aanpassen een course ophalen uit de database en bij het aanmaken een nieuwe leeg object gebruiken.
+We zouden nu zowel de template als de methods kunnen dupliceren voor het aanmaken van een nieuw record. Maar zoals het een goede programmeur betaamt, zijn we wat 'lui', en willen we zoveel mogelijk hergebruiken. Het grootste verschil tussen aanpassen en editeren is dat we bij het aanpassen een project ophalen uit de database en bij het aanmaken een nieuwe leeg object gebruiken.
 
-Eerst en vooral moeten we ervoor zorgen dat we nieuwe routes aanmaken `/course/create`. En dat we deze ook doorverwijzen naar de edit en save method.
+Eerst en vooral moeten we ervoor zorgen dat we nieuwe routes aanmaken `/project/create`. En dat we deze ook doorverwijzen naar de edit en save method.
 
->**Let hierbij op dat deze boven de routes staan van `/course/{id}` anders zal hij 'create' aanzien als een id dat doorgegeven moet worden naar de detail controller.**
+>**Let hierbij op dat deze boven de routes staan van `/project/{id}` anders zal hij 'create' aanzien als een id dat doorgegeven moet worden naar de detail controller.**
 
 ```
-Route::get('/course/create', [CourseController::class, 'edit']);
-Route::post('/course/create', [CourseController::class, 'save']);
+Route::get('/project/create', [ProjectController::class, 'edit']);
+Route::post('/project/create', [ProjectController::class, 'save']);
 ```
 
 Als je dit gaat testen zal je zien dat dit de foutmelding `Too few arguments to function` zal genereren. Dit kunnen we oplossen door een standaard waarde te geven aan de `$id` bij de method edit. Daarbij moeten we dan ook controleren op deze `$id`. Indien deze niet is meegegeven dient er een nieuw object te worden aangemaakt van die class.
 
 ```
 public function edit($id = null) {
-    $course = ($id) ? Course::findOrFail($id) : new Course();
+    $project = ($id) ? Project::findOrFail($id) : new Project();
 
     ...
 }
 
 public function save(Request $request, $id = null) {
-    $course = ($id) ? Course::findOrFail($id) : new Course();
+    $project = ($id) ? Project::findOrFail($id) : new Project();
 
     ...
 }
 ```
 
-Je kan er nu ook voor zorgen dat er, bij de creatie van een course, een duidelijkere tekst staat bij de titel (*'Create course'*) en submit knop (*'Add course'*). 
+Je kan er nu ook voor zorgen dat er, bij de creatie van een project, een duidelijkere tekst staat bij de titel (*'Create project'*) en submit knop (*'Add project'*). 
 
 Gebruik hiervoor dezelfde verkorte schrijfwijze voor een if/else statement.
 
 ```
-<h1>{{ ($course->id) ? 'Edit course' : 'Create course' }}</h1>
+<h1>{{ ($project->id) ? 'Edit project' : 'Create project' }}</h1>
 ```
 
 Deze labels staan nu standaard steeds in het Engels, je kan ervoor zorgen dat deze labels afhankelijk bv van de voorkeuren van de bezoeker aangepast worden. Dit gebeurd adhv localisatie. (Zie 9_Localisation.md)
@@ -134,7 +134,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
  
-class CourseController extends Controller
+class ProjectController extends Controller
 {
     public function save(Request $request, $id = null)
     {
@@ -158,3 +158,59 @@ class CourseController extends Controller
 ```
 
 [Een volledig overzicht van Form validation.](https://laravel.com/docs/9.x/validation)
+
+## Een-op-veel relatie
+
+Indien er een een-op-veel relatie ligt tussen verschillende tabellen. Is het niet zo moeilijk om deze relatie tot stand te brengen in de database. We moeten enkel de PK van de andere tabel opslaan als FK in de huidige tabel.
+
+Meestal zal je hiervoor gebruik maken in je formulier an een `<select>` input.
+
+```
+<label>    
+    Customer:
+    <select name="customer_id">
+        <option value="">{{ __('Select customer...')__ }}</option>
+    @foreach($customers as $customer)
+        <option value="{{ $customer->id }}" {{ ($project->customer_id == $customer->id) ? 'selected' : '' }}>{{ $customer->name }}</option>
+    @endforeach
+    </select>
+</label>
+```
+
+## Veel-op-veel relatie
+
+Bij een veel op veel relatie kan je ook een `select` gebruiken met het attribuut `multiple`. Maar dit is niet zo gebruiksvriendelijk. Een betere optie is om checkboxen te voorzien. 
+
+```
+<p>
+Users:
+@foreach($users as $user)
+    @php $is_selected = ($project->users->contains('id', $user->id)) ? 'checked' : ''; @endphp
+    <label><input type="checkbox" name="users[]" value="{{ $user->id }}" {{ $is_selected }}> {{ $user->name }}</label>
+@endforeach
+</p>
+```
+
+Merk op dat de er vierkante haakjes staan in de name van de checkbox. De waardes van de aangevinkte checkboxes zullen als array verstuurd worden naar de server en kunnen opgehaald worden aan de hand van de key `users` (dus zonder vierkante haakjes).
+
+> Zijn er te veel records om allemaal een checkbox van te maken. Dan kan je ook een JavaScript library installeren dat een autocomplete select maakt waarbij je meerdere waardes / tags kan opgeven. Deze worden dan aangevuld via AJAX en een API binnen je applicatie. 
+[Voorbeeld JS libraries via GitHub](https://github.com/topics/select-multiple?l=javascript&o=desc&s=) 
+
+### Sync veel-op-veel
+
+Hieronder zie je hoe je de syncronisatie van de tussentabel moet doen. Dit doe je aan de hand van de method `sync`. Nieuwe id's zullen toegevoegd worden, ontbrekende zullen verwijderd worden.
+
+> Let wel op dat dit, bij nieuwe projecten, gebeurt nadat je het project hebt opgeslagen. Anders kan de relatie niet gemaakt worden omdat de `$project->id` nog niet toegekend is.
+
+```
+public function save(Request $request, $id = null) {
+    ...
+
+    $success = $project->save();
+
+    //Veel-op-veel relatie syncroniseren
+    $project->users()->sync($request->input('users'));
+    
+    ... 
+}
+```
