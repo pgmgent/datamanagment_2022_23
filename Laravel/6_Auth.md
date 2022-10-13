@@ -89,4 +89,12 @@ Of meteen in de routing:
 Route::get('/admin', [AdminController::class, 'index'])->middleware('auth');
 ```
 
+## Huidige user ophalen
 
+```
+use Illuminate\Support\Facades\Auth;
+ 
+// Retrieve the currently authenticated user...
+$user = Auth::user();
+echo $user->email;
+```
