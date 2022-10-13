@@ -2,11 +2,11 @@
 
 In een applicatie zullen we ook meerder bestanden willen hosten. Dit kunnen afbeeldingen, video's of andere documenten zijn.
 
-In kleinere applicaties en websites zullen deze op dezelfde hosting staan als de website zelf. Maar bij grotere applicaties waarbij veel afbeeldingen of video's geupload worden door een gebruiker. Dan kan het interessant zijn om deze te hosten op een apparte hosting waarbij je bijvoorbeeld niet betaald voor diskspace maar wel voor bandbreedte. Een voorbeeld hiervan is Amazon S3.
+In kleinere applicaties en websites zullen deze op dezelfde hosting staan als de website zelf. Maar bij grotere applicaties waarbij veel afbeeldingen of video's geüpload worden door een gebruiker. Dan kan het interessant zijn om deze te hosten op een aparte hosting waarbij je bijvoorbeeld niet betaald voor diskspace maar wel voor bandbreedte. Een voorbeeld hiervan is Amazon S3.
 
 ## Link folder
 
-Laravel geeft ons de mogelijkheid om eenvoudig te switchen tussen deze technieken aan de hand van de `config/storage.php`. Hierin staat reeds standaard gedefineerd dat onze `storage/app/public` gekoppeld zal worden met de folder `public/storage`.
+Laravel geeft ons de mogelijkheid om eenvoudig te switchen tussen deze technieken aan de hand van de `config/storage.php`. Hierin staat reeds standaard gedefinieerd dat onze `storage/app/public` gekoppeld zal worden met de folder `public/storage`.
 
 Hiervoor moet een link gemaakt worden in de public folder naar de storage folder. Een link is een soort virtuele folder die doorverwijst naar de bron folder. Maak de link aan via onderstaande commando.
 

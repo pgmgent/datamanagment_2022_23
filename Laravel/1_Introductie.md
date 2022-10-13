@@ -123,7 +123,7 @@ Als laatste moeten we nog de 2 views aanmaken. Zoals je kan zien roepen we deze 
 
 ## Blade layouts
 
-We hebben nu al enkele views aangemaak, telkens met hun eigen HTML, head en body. Qua onderhoud niet zo handig als we een aanpassing moeten doen of een extra CSS of JS bestand moeten linken.
+We hebben nu al enkele views aangemaakt, telkens met hun eigen HTML, head en body. Qua onderhoud niet zo handig als we een aanpassing moeten doen of een extra CSS of JS bestand moeten linken.
 
 De oplossing hiervoor zijn blade templates. Je maakt 1 of meerdere basis template waarin placeholders zitten voor de inhoud van je pagina's (views).
 
@@ -154,7 +154,7 @@ Maak volgend bestand aan: `resources/views/layouts/app.blade.php` met een basis 
 </html>
 ```
 
-In je view defineer je welke layout je wenst te gebruiken en vul je de inhoud in.
+In je view definieer je welke layout je wenst te gebruiken en vul je de inhoud in.
 
 ```
 <!-- resources/views/course/detail.blade.php -->
@@ -173,7 +173,7 @@ In je view defineer je welke layout je wenst te gebruiken en vul je de inhoud in
 
 Nu moeten we nog de correcte inhoud uit onze database kunnen ophalen. Dit gebeurt in de model.
 
-Maar daarvoor moeten we eerst een database hebben. Hiervoor moet je eerst de juiste connectie maken in de `.env` file. Pas de connectiegegevens aan volgens jouw MySQL database:
+Maar daarvoor moeten we eerst een database hebben. Hiervoor moet je eerst de juiste connectie maken in de `.env` file. Pas de connectie gegevens aan volgens jouw MySQL database:
 
 ```
 DB_DATABASE=pgm-laravel
@@ -183,17 +183,17 @@ DB_PASSWORD=secret123
 
 Daarna moeten we de migration scripts runnen van Laravel. Bekijk alvast eens de bestaande migrations `database/migrations/`.
 
-Voor daarna onderdtaande commando uit in je CLI.
+Voor daarna onderstaande commando uit in je CLI.
 
 ```
 php artisan migrate
 ```
 
-Indien de database die je hebt gedefineerd in je `.env` nog niet bestaat, zal je de vraag krijgen om deze aan te maken.
+Indien de database die je hebt gedefinieerd in je `.env` nog niet bestaat, zal je de vraag krijgen om deze aan te maken.
 
-We kunnen nu zelf migrations schrijven ofwel bestaande tabellen importeren of aanmaken rechstreeks in de database of via een DBMS.
+We kunnen nu zelf migrations schrijven ofwel bestaande tabellen importeren of aanmaken rechtstreeks in de database of via een DBMS.
 
-Voor de eerste oefening imporeren we de pgm courses sql van vorige les.
+Voor de eerste oefening importeren we de pgm courses sql van vorige les.
 
 ### Model aanmaken
 
@@ -246,7 +246,7 @@ Pas nu de Controller aan zodat je de inhoud kan doorgeven aan de View. In de vie
 | Functionaliteit | Omschrijving | Locatie |
 | ----------- | ----------- | ----------- |
 | Routing | Beslist wat er moet gebeuren met een URL en stuurt door naar Controller | /routes/web.php |
-| Controller | Krijgt een request binnen op een method, haalt data op uit de model en stuurt dit door naar de juiste view | /app/Http/Conrollers/ |
+| Controller | Krijgt een request binnen op een method, haalt data op uit de model en stuurt dit door naar de juiste view | /app/Http/Controllers/ |
 | Models | Staat in contact met de database, voert sql opdrachten uit en stuurt resultaat terug | /app/Models |
 | Views | Bevat de inhoud of een deel van de inhoud van een pagina | /resources/views/... |
 | Layout | Bevat de volledige layout van de pagina | /resources/views/layouts/... |

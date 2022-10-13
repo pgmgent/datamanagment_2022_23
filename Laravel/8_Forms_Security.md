@@ -1,12 +1,12 @@
 # Editeer formulieren en beveiliging
 
-We kunnen nu ook templates maken waarin formulier voorkomen. We gaan ervanuit gaan dat, indien we gegevens willen ophalen, we best de GET methode gebruiken. En als we gegevens naar de database willen sturen de POST van toepassing is. Uiteraard zijn er steeds uitzonderingen op deze regel. Hieronder gaan we verder in op het versturen van gegevens die in de database zullen worden opgeslagen en dus de POST methode zal gebruikt worden.
+We kunnen nu ook templates maken waarin formulier voorkomen. We gaan er vanuit gaan dat, indien we gegevens willen ophalen, we best de GET methode gebruiken. En als we gegevens naar de database willen sturen de POST van toepassing is. Uiteraard zijn er steeds uitzonderingen op deze regel. Hieronder gaan we verder in op het versturen van gegevens die in de database zullen worden opgeslagen en dus de POST methode zal gebruikt worden.
 
 ## CSRF: Cross Site Request Forgery
 
 Om je te wapenen tegen CSRF heeft Laravel een middleware voorzien om de request te controleren op de oorsprong van de request.
 
-Bij het aanmaken van een formulier moet je dan wel een include doen via `@csrf`. Dit zal een soort sessie ID meegeven als hidden input in je formulier. Hierop zal Laravel dan controleren of de request weldegelijk van je eigen website komt en niet van een externe (fishing) website.
+Bij het aanmaken van een formulier moet je dan wel een include doen via `@csrf`. Dit zal een soort sessie ID meegeven als hidden input in je formulier. Hierop zal Laravel dan controleren of de request wel degelijk van je eigen website komt en niet van een externe (fishing) website.
 
 ```
 <form method="POST">
@@ -121,7 +121,7 @@ Naast het beveiligen tegen hacking moeten we er ook steeds voor zorgen dat onze 
 
 Dit moet zowel client- als serverside gevalideerd worden om de gebruiksvriedelijkheid (UX) van onze applicatie te optimaliseren.
 
-Clientside zal dit gebeuren door enerzijds de juiste input-types. Bijvoorbeeld `<input type="email">` voor een e-mail adres. En dat er een `required` attribuut wordt meegegeven indien de gebruiker verplicht het veld moet invullen. Of het aantal karaketers beperken via het `maxlength` attribuut. Daarenboven kan je ook validatie doen via JavaScript vooraleer deze doorgestuurd wordt naar de server. 
+Clientside zal dit gebeuren door enerzijds de juiste input-types. Bijvoorbeeld `<input type="email">` voor een e-mail adres. En dat er een `required` attribuut wordt meegegeven indien de gebruiker verplicht het veld moet invullen. Of het aantal karakters beperken via het `maxlength` attribuut. Daarenboven kan je ook validatie doen via JavaScript vooraleer deze doorgestuurd wordt naar de server. 
 
 Daarnaast is er niets zo vervelend als een database met bijvoorbeeld telefoonnummers waarbij 10 verschillende notaties worden aangenomen door gebruikers. (Met of zonder landcode, geschreven als +32 of 0032, de ene met spaties de andere met dots en nog andere met een slash tussenin.) Meestal kies je voor een bepaalde notatie en wil je dat dit consistent is voor alle records. Echter zal de gebruiker dat niet standaard doen.
 
@@ -202,7 +202,7 @@ Merk op dat de er vierkante haakjes staan in de name van de checkbox. De waardes
 
 ### Sync veel-op-veel
 
-Hieronder zie je hoe je de syncronisatie van de tussentabel moet doen. Dit doe je aan de hand van de method `sync`. Nieuwe id's zullen toegevoegd worden, ontbrekende zullen verwijderd worden.
+Hieronder zie je hoe je de synchronisatie van de tussen-tabel moet doen. Dit doe je aan de hand van de method `sync`. Nieuwe id's zullen toegevoegd worden, ontbrekende zullen verwijderd worden.
 
 > Let wel op dat dit, bij nieuwe projecten, gebeurt nadat je het project hebt opgeslagen. Anders kan de relatie niet gemaakt worden omdat de `$project->id` nog niet toegekend is.
 
@@ -212,7 +212,7 @@ public function save(Request $request, $id = null) {
 
     $success = $project->save();
 
-    //Veel-op-veel relatie syncroniseren
+    //Veel-op-veel relatie synchroniseren
     $project->users()->sync($request->input('users'));
     
     ... 

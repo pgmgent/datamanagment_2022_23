@@ -2,11 +2,11 @@
 
 Voor de eindopdracht is het de bedoeling dat jullie een back-office maken waar we de inhoud van de database kunnen beheren.
 
-De meest eenvoudige manier om dit te doen is gebruik te maken van een package waarin reeds de routes, controllers en views vooraf zijn gemaakt en geinstalleerd worden.
+De meest eenvoudige manier om dit te doen is gebruik te maken van een package waarin reeds de routes, controllers en views vooraf zijn gemaakt en geïnstalleerd worden.
 
 Het nadeel is dat bij de meeste reeds een keuze is gemaakt voor front-end CSS framework. En dat er geen ongestijlde package bestaat.
 
-Persoonlijk vind ik de package van `laravel ui` de minst overladen package en dus het eenvoudigst aan te passen. Deze maakt gebruik van Bootstrap maar deze is eenvoudig weg te halen. Maar zelf verwijzen ze in hun documentatie naar de meer recentere Laravel Breeze starter kit. Bij Laravel Breeze worden er heel wat meer routes, views en components geinstalleerd die allemaal gestijld zijn met Tailwind. Waardoor deze minder flexibel is om aan te passen. Maar indien je voor je backoffice toch Tailwind wenst te gebruiken misschien een goede keuze.
+Persoonlijk vind ik de package van `laravel ui` de minst overladen package en dus het eenvoudigst aan te passen. Deze maakt gebruik van Bootstrap maar deze is eenvoudig weg te halen. Maar zelf verwijzen ze in hun documentatie naar de meer recentere Laravel Breeze starter kit. Bij Laravel Breeze worden er heel wat meer routes, views en components geïnstalleerd die allemaal gestijld zijn met Tailwind. Waardoor deze minder flexibel is om aan te passen. Maar indien je voor je backoffice toch Tailwind wenst te gebruiken misschien een goede keuze.
 
 ## Laravel UI
 
@@ -29,7 +29,7 @@ php artisan ui react --auth
 
 Je zal zien dat er nu Routes, Controllers en Views zijn aangemaakt om in te loggen, te registeren en naar het dashboard te gaan.
 
-Wat betreft het dashboard zit er een fout in deze package. Pas de route home aan naar dasbhoard:
+Wat betreft het dashboard zit er een fout in deze package. Pas de route home aan naar dashboard:
 
 ```
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
