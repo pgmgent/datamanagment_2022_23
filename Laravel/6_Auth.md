@@ -67,7 +67,7 @@ Dit kan op verschillende manieren. Je kan een volledige Controller beveiligen. H
 
 ```
 class AdminController extends Controller {
-    public function __constructor() {
+    public function __construct() {
         $this->middleware('auth');
     }
 }
