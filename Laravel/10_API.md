@@ -31,3 +31,41 @@ Route::get('/users/{q}', function ($q) {
 ```
 
 > Afhankelijk van je browser zal je een duidelijk verschil zien in het renderen van de response.
+
+## Ophalen via fetch
+
+In de edit pagina van projecten kan ik er dan bijvoorbeeld voor zorgen dat er gezocht kan worden op een naam. Zonder dat alle users initieel worden opgehaald.
+
+```
+
+<p>
+Users
+<input type="text" id="search_user">
+<div id="checkboxes">
+@foreach($project->users as $user)
+    <label><input type="checkbox" name="users[]" value="{{ $user->id }}" checked> {{ $user->name }}</label>
+@endforeach
+</div>
+</p>
+
+...
+
+<script>
+let $search_user = document.getElementById('search_user');
+let $checkboxes = document.getElementById('checkboxes');
+
+$search_user.addEventListener('keyup', (evt) => {
+    var search_string = $search_user.value;
+    if( search_string.length ) {
+        fetch('/api/users/' + search_string)
+            .then((response) => response.json())
+            .then((data) => {
+                $checkboxes.innerHTML = '';
+                data.forEach( ($user) => {
+                    $checkboxes.innerHTML += '<label><input type="checkbox" name="users[]" value="' + $user.id + '"> ' + $user.name + '</label>'
+                });
+            });
+    }
+});
+</script>
+```
