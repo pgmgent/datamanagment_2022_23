@@ -17,3 +17,17 @@ Route::get('/users/{q}', function ($q) {
     return json_encode($users);
 });
 ```
+
+## HTTP response: Content-Type
+
+Echter staat bij bovenstaande route de http header nog steeds op de standaard HTML. Dus afhankelijk van welke content je via je API terugstuurt, moet je ook het Content-Type aanpassen via de headers. Onderstaande is dus beter.
+
+```
+Route::get('/users/{q}', function ($q) {
+    $users = User::select('id', 'name')->where('name', 'LIKE', '%' . $q . '%')->get();
+    return response( json_encode($users) )
+                ->header('Content-Type', 'text/plain');
+});
+```
+
+> Afhankelijk van je browser zal je een duidelijk verschil zien in het renderen van de response.
