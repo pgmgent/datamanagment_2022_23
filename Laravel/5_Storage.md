@@ -35,7 +35,7 @@ Om assets op te laden moet je uiteraard eerst een `<input type="file" name="imag
 
 Van zodra je een POST doen van dit formulier zal de client het bestand doorsturen naar de PHP server. Deze server zal het bestand in een temp folder opslaan. Via onze code moeten we dus enkel het bestand nog verplaatsen naar de juiste map.
 
-In vanilla php gebruikten we hiervoor de functie `move_uploaded_file`. Laravel heeft een method ter beschikking die dat meteen voor ons doen. Hierbij zal hij ook telkens een unieke id gebruiken als bestandsnaam. Het voordeel hiervan is dat gebruikers of administrators eenzelfde bestandsnaam kunnen opladen zonder dat ze elkaars bestand zouden overschrijven.
+In vanilla php gebruikten we hiervoor de functie `move_uploaded_file`. Laravel heeft een method ter beschikking die dat meteen voor ons doen. Hierbij zal hij ook telkens een unieke id gebruiken als bestandsnaam. Het voordeel hiervan is dat gebruikers of administrators eenzelfde bestandsnaam kunnen opladen zonder dat ze elkaars bestand zouden overschrijven. 
 
 Na het verplaatsen moeten we de database nog aanpassen en de bestandsnaam opslaan. Persoonlijk ga ik steeds enkel de bestandsnaam opslaan en niet het pad. Dit heeft als voordeel dat je dan eenvoudig kan veranderen van folderstructuur zonder dat je database aangepast moet worden.
 
@@ -67,5 +67,9 @@ public function save(Request $request, $id = null) {
     return redirect('/project/' . $project->id);   
 }
 ```
+
+Wil je zelf kiezen welke bestandsnaam de file moet krijgen dan kan dit via de method `storeAs`. 
+
+[Meer mogelijkheden kan je bekijken via de Laravel documentatie](https://laravel.com/docs/9.x/filesystem#file-uploads)
 
 
