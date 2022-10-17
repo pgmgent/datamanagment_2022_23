@@ -28,3 +28,44 @@ In je views kan je deze dan oproepen op onderstaande manier.
 
 ## Assets opladen
 
+Om assets op te laden moet je uiteraard eerst een `<input type="file" name="image">` toevoegen aan je formulier. 
+
+>Het is belangrijk dat je ook het `enctype` aanpast van je formulier.
+>`<form method="POST" enctype="multipart/form-data">`
+
+Van zodra je een POST doen van dit formulier zal de client het bestand doorsturen naar de PHP server. Deze server zal het bestand in een temp folder opslaan. Via onze code moeten we dus enkel het bestand nog verplaatsen naar de juiste map.
+
+In vanilla php gebruikten we hiervoor de functie `move_uploaded_file`. Laravel heeft een method ter beschikking die dat meteen voor ons doen. Hierbij zal hij ook telkens een unieke id gebruiken als bestandsnaam. Het voordeel hiervan is dat gebruikers of administrators eenzelfde bestandsnaam kunnen opladen zonder dat ze elkaars bestand zouden overschrijven.
+
+Na het verplaatsen moeten we de database nog aanpassen en de bestandsnaam opslaan. Persoonlijk ga ik steeds enkel de bestandsnaam opslaan en niet het pad. Dit heeft als voordeel dat je dan eenvoudig kan veranderen van folderstructuur zonder dat je database aangepast moet worden.
+
+Hieronder zie je de aangepaste code van de edit method. Waarbij eerst het bestand wordt verplaatst naar de Storage en daarna meegegeven wordt om op te slaan in de database. Let wel dat je dit enkel doet als er ook effectief een file wordt opgeladen. Anders maak je het veld het editeren bij iedere aanpassing leeg.
+
+```
+public function save(Request $request, $id = null) {
+    $project = ($id) ? Project::findOrFail($id) : new Project();
+
+    //Controleer of er een file is opgeladen
+    if( $request->file('photo') ) {
+        $uploaded_path = $request->file('photo')->store('projects');
+        //haal enkel de filename op van het pad
+        $filename = basename($uploaded_path);
+    }
+
+    $project->name = $request->input('name');
+    $project->description = $request->input('description');
+    $project->customer_id = $request->input('customer_id') ?? 0;
+    $project->publish = 1;
+    //Enkel opslaan indien er een filename is.
+    if( isset($filename) ) {
+        $project->image = $filename;
+    }
+    $success = $project->save();
+
+    $project->users()->sync($request->input('users'));
+
+    return redirect('/project/' . $project->id);   
+}
+```
+
+
