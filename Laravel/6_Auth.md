@@ -98,3 +98,50 @@ use Illuminate\Support\Facades\Auth;
 $user = Auth::user();
 echo $user->email;
 ```
+
+## Middleware zelf aanmaken
+
+We hebben al gezien dat de middleware er kan voor zorgen dat er gekeken wordt of een bezoeker al dan niet is ingelogd.
+
+Maar meestal willen we ook gaan valideren of een ingelogde gebruiker bepaalde rechten heeft.
+
+Hiervoor kunnen we zelf een middleware aanmaken. Maak in eerste instantie de middleware class aan `app/Http/Middleware/AuthenticateAdmin.php` met onderstaande voorbeeldcode. Hierbij zal een bezoeker gecontroleerd worden of hij is ingelogd en de naam 'George' heeft.
+
+```
+<?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Auth\Middleware\Authenticate as Middleware;
+
+class AuthenticateAdmin extends Middleware
+{
+    public function handle($request, Closure $next, ...$guards)
+    {
+        if (! $request->user() || $request->user()->name !== 'George') {
+            return redirect('/');
+        }
+
+        return $next($request);
+    }
+}
+```
+
+Daarna moeten we deze middleware toevoegen aan de lijst van routeMiddleware in `app/Http/Kernel.php`.
+
+```
+ protected $routeMiddleware = [
+    'auth' => \App\Http\Middleware\Authenticate::class,
+    'auth.admin' => \App\Http\Middleware\AuthenticateAdmin::class,
+    ...
+];
+```
+
+Vanaf nu kunnen we deze middleware gaan gebruiken. De meest eenvoudige manier is om dit rechtstreeks in onze route te doen. Hieronder een voorbeeld van een pagina die dus enkel bereikbaar is voor ingelogde personen met de naam 'George'.
+
+```
+Route::get('/george', function () {
+    return 'Enkel voor ingelogde gebruikers met de naam George';
+})->middleware('auth.admin');
+```
