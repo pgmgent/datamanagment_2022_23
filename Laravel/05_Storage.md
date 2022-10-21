@@ -47,7 +47,7 @@ public function save(Request $request, $id = null) {
 
     //Controleer of er een file is opgeladen
     if( $request->file('photo') ) {
-        $uploaded_path = $request->file('photo')->store('projects');
+        $uploaded_path = $request->file('photo')->store('public/projects');
         //haal enkel de filename op van het pad
         $filename = basename($uploaded_path);
     }
