@@ -2,11 +2,15 @@
 
 Hieronder vind je een overzicht van de flow die Laravel doorloopt om een request te behandelen.
 
-1. Request en .htaccess
-1. Routing
-1. Controller
-1. Model
-1. Views
+- [Laravel Flow Cheatsheet](#laravel-flow-cheatsheet)
+  - [1. Request en .htaccess `/public/`](#1-request-en-htaccess-public)
+  - [2. Routing `/routes/web.php`](#2-routing-routeswebphp)
+  - [3. Controller `/app/Http/Controllers`](#3-controller-apphttpcontrollers)
+    - [Read](#read)
+    - [Create / Update](#create--update)
+  - [4. Models `/app/Models`](#4-models-appmodels)
+  - [5. Views `/resources/views/`](#5-views-resourcesviews)
+    - [Layout `/resources/views/layouts/app.blade.php`](#layout-resourcesviewslayoutsappbladephp)
 
 
 ## 1. Request en .htaccess `/public/`
