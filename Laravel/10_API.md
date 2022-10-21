@@ -69,3 +69,20 @@ $search_user.addEventListener('keyup', (evt) => {
 });
 </script>
 ```
+
+## Views renderen in API
+
+Je moet uiteraard niet altijd JSON terugsturen naar de client. Het voordeel van JSON is dat dit een weinig data vergt. Echter moet je er dan wel rekening mee houden dat je de HTML moet opbouwen via JavaScript. En je dus 2x eenzelfde view moet onderhouden. Een in blade voor de back-end en een in JS voor de front-end.
+
+Je kan via de API ook HTML terugsturen. Je rendert dus al meteen de HTML.
+
+```
+Route::get('/users/{q}', function ($q) {
+    $users = User::select('id', 'name')->where('name', 'LIKE', '%' . $q . '%')->get();
+    $content = '';
+    foreach($users as $user) {
+        $content .= view('users.item', ['user' => $user])->render();
+    }
+    return $content;
+});
+```
