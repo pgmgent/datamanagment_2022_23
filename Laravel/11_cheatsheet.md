@@ -14,7 +14,7 @@ Hieronder vind je een overzicht van de flow die Laravel doorloopt om een request
 
 
 ## 1. Request en .htaccess `/public/`
-Je moet weten dat iedere request, dat geen bestaande file of folder is in de public folder, binnenkomt op de index.php in de public folder. Dit staat zo beschreven in de `.htaccess`. 
+Je moet weten dat iedere request, dat geen bestaande file of folder is, in de public folder binnenkomt op de index.php. Dit staat zo beschreven in de `.htaccess`. 
 
 Eerst zal er gekeken worden naar welke routing controller dit moet doorgestuurd worden. `/api` gaat naar `/routes/web.php`. Maar de meeste gevallen gaat dit dus eerst naar de `/routes/web.php`
 
