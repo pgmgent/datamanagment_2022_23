@@ -145,6 +145,7 @@ class ProjectController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:50',
             'description' => 'required',
+            'image' => 'max:10240', //=10MB Dit moet uiteraard overeenkomen met je php.ini > upload_max_filesize
         ]);
  
         if ($validator->fails()) {
